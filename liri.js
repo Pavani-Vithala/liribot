@@ -1,6 +1,6 @@
 require("dotenv").config();
 var moment = require("moment");
-var keys = require("./keys");
+var keys = require("./keys.js");
 //console.log(keys);
 var axios = require("axios");
 var fs = require("fs");
@@ -8,30 +8,38 @@ var Spotify = require("node-spotify-api");
 
 var command = process.argv[2];
 var param = process.argv.slice(3).join(" ");
-var text = command + " " +param + "\n";
+var text = command + " " + param + "\n";
 //console.log(param);
 
 
 switch (command) {
     case "concert-this":
-    var artist = param;
+        var artist = param;
         concertThis(artist);
-        
+
         break;
     case "spotify-this-song":
-    
-    var song = param;
-    var spotify = new Spotify(keys.spotify);
-    //console.log(spotify);
-     
-    spotify.search({ type: 'track', query: song,limit:1 }, function(err, data) {
-      if (err) {
-        return console.log('Error occurred: ' + err);
-      }
-      var spotifyResult = Object.values(data.tracks)//["artists"][0])//.tracks["album"][0]);
-     logText(spotifyResult);
-    console.log(Object.values(spotifyResult)); 
-    });
+
+        var song = param;
+        var spotify = new Spotify(keys.spotify);
+        //console.log(spotify);
+
+        spotify.search({ type: 'track', query: song })
+            .then(function (response) {
+                var result = response.tracks.items[0];
+                console.log(result);
+                var artist = result.artists[0].name;
+                console.log("Name of the Artist(s):" + artist);
+                console.log("Name of the song:" + song);
+                var songLink = result.href;
+                console.log("Link to the song: " + songLink);
+                var album = result.album["name"];
+                console.log("Album the song is from :" + album);
+                logText(result);
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
         break;
     case "movie-this":
 
@@ -52,10 +60,10 @@ switch (command) {
             }
             var dataArr = data.split(",");
             var dataArr1 = dataArr[1].split("\"");
-            if(dataArr[0] == "movie-this")
-            getMovieDetails(dataArr1);
-            if(dataArr[0] == "concert-this")
-            concertThis(dataArr1);
+            if (dataArr[0] == "movie-this")
+                getMovieDetails(dataArr1);
+            if (dataArr[0] == "concert-this")
+                concertThis(dataArr1);
             //if(dataArr[0] == "spotify-this-song")
             //spotifyThisSong(dataArr1);
         });
@@ -83,8 +91,8 @@ function getMovieDetails(moviename) {
         });
 
 }
-function concertThis(){
-    
+function concertThis() {
+
     var queryURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=" + process.env.BANDSINTOWN_APIKEY;
     console.log(queryURL);
     axios.get(queryURL).then(
@@ -109,23 +117,22 @@ function concertThis(){
 
 
 }
-function logText(result)
-{
+function logText(result) {
     var logText = "\n" + text + " " + "\n";
-    var objectText =  JSON.stringify(result);
-    var finalText =  logText + "\n" + objectText;
-    fs.appendFile("log.txt", finalText, function(err) {
+    var objectText = JSON.stringify(result);
+    var finalText = logText + "\n" + objectText;
+    fs.appendFile("log.txt", finalText, function (err) {
 
         // If an error was experienced we will log it.
         if (err) {
-          console.log(err);
+            console.log(err);
         }
-      
+
         // If no error is experienced, we'll log the phrase "Content Added" to our node console.
         else {
-            
-          console.log("Content Added!");
+
+            console.log("Content Added!");
         }
-      
-      }); 
+
+    });
 }

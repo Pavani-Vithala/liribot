@@ -22,8 +22,8 @@ What Each Command does is as below
 
      * Date of the Event (use moment to format this as "MM/DD/YYYY")
      
-     ![alt text](https://raw.github.com/Pavani-Vithala/liribot/new/master/images/movieThis.JPEG)
-
+     ![alt text](https://github.com/Pavani-Vithala/liribot/blob/master/images/movieThis.jpeg.png)
+     
 2. `node liri.js spotify-this-song '<song name here>'`
 
    * This will show the following information about the song in your terminal/bash window

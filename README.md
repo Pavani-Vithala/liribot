@@ -37,6 +37,10 @@ What Each Command does is as below
      * The album that the song is from
 
    * If no song is provided then your program will default to "The Sign" by Ace of Base.
+   
+  ![alt text](https://github.com/Pavani-Vithala/liribot/blob/master/images/SpotifyThis.jpeg.png)
+  
+  ![alt text](https://github.com/Pavani-Vithala/liribot/blob/master/images/SpotifyThiswithoutName.jpeg.png)
 
 3. `node liri.js movie-this '<movie name here>'`
 
@@ -53,16 +57,23 @@ What Each Command does is as below
      ```
 
    * If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
-
+ 
+ ![alt text](https://github.com/Pavani-Vithala/liribot/blob/master/images/movieThis.jpeg.png)
+  
+  ![alt text](https://github.com/Pavani-Vithala/liribot/blob/master/images/movieThiswithNoname.jpeg.png)
+  
      
 4. `node liri.js do-what-it-says`
 
      * It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
 
-     
+     ![alt text](https://github.com/Pavani-Vithala/liribot/blob/master/images/randomtxtfile.jpeg.png)
+  
+  ![alt text](https://github.com/Pavani-Vithala/liribot/blob/master/images/dowhatitsays.jpeg.png)
+  
 * In addition to logging the data to your terminal/bash window, output of the commands is logged to a log file called `log.txt`.
 
-
+  ![alt text](https://github.com/Pavani-Vithala/liribot/blob/master/images/logfile.jpeg.png)
 
 Why the project is useful
 

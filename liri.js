@@ -20,26 +20,9 @@ switch (command) {
         break;
     case "spotify-this-song":
 
-        var song = param;
-        var spotify = new Spotify(keys.spotify);
-        //console.log(spotify);
+        spotifyThisSong(param);
 
-        spotify.search({ type: 'track', query: song })
-            .then(function (response) {
-                var result = response.tracks.items[0];
-                console.log(result);
-                var artist = result.artists[0].name;
-                console.log("Name of the Artist(s):" + artist);
-                console.log("Name of the song:" + song);
-                var songLink = result.href;
-                console.log("Link to the song: " + songLink);
-                var album = result.album["name"];
-                console.log("Album the song is from :" + album);
-                logText(result);
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
+        
         break;
     case "movie-this":
 
@@ -59,13 +42,14 @@ switch (command) {
                 return console.log(error);
             }
             var dataArr = data.split(",");
-            var dataArr1 = dataArr[1].split("\"");
+            var dataArr1 = dataArr[1].slice();//.join(" ");
+            console.log(dataArr1);
             if (dataArr[0] == "movie-this")
                 getMovieDetails(dataArr1);
             if (dataArr[0] == "concert-this")
                 concertThis(dataArr1);
-            //if(dataArr[0] == "spotify-this-song")
-            //spotifyThisSong(dataArr1);
+            if(dataArr[0] == "spotify-this-song")
+            spotifyThisSong(dataArr1);
         });
         break;
 
@@ -94,7 +78,7 @@ function getMovieDetails(moviename) {
 function concertThis() {
 
     var queryURL = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=" + process.env.BANDSINTOWN_APIKEY;
-    console.log(queryURL);
+    //console.log(queryURL);
     axios.get(queryURL).then(
         function (response) {
 
@@ -135,4 +119,32 @@ function logText(result) {
         }
 
     });
+}
+function spotifyThisSong(param)
+{
+    var song = param;
+    var spotify = new Spotify(keys.spotify);
+    //console.log(spotify);
+    if(param == "")
+    {
+        song = "The Sign";
+    }
+    spotify.search({ type: 'track', query: song })
+        .then(function (response) {
+            var result = response.tracks.items[0];
+            //console.log(result);
+            var artist = result.artists[0].name;
+            console.log("Name of the Artist(s):" + artist);
+            console.log("Name of the song:" + song);
+            var songLink = result.href;
+            console.log("Link to the song: " + songLink);
+            var album = result.album["name"];
+            console.log("Album the song is from :" + album);
+            logText(result);
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+
+
 }
